@@ -100,6 +100,23 @@
   --hier-bllokuar: oklch(0.6 0.2 27);
   --hier-mbyllur: oklch(0.2 0 0);
   --hier-nav-active: oklch(0.65 0.07 200);
+  --pl-top: oklch(0.27 0.06 262);
+  --pl-tab: oklch(0.4 0.06 255);
+  --pl-bg: oklch(0.2 0.025 255);
+  --pl-panel: oklch(0.24 0.03 255);
+  --pl-row: oklch(0.26 0.03 255);
+  --pl-row-alt: oklch(0.23 0.03 255);
+  --pl-head: oklch(0.42 0.03 250);
+  --pl-line: oklch(0.32 0.03 255);
+  --pl-text: oklch(0.96 0.01 250);
+  --pl-muted: oklch(0.72 0.02 250);
+  --pl-odd: oklch(0.82 0.15 80);
+  --pl-gold: oklch(0.74 0.15 75);
+  --pl-pick: oklch(0.74 0.15 75);
+  --pl-pick-text: oklch(0.2 0.03 255);
+  --pl-green: oklch(0.5 0.13 145);
+  --pl-won: oklch(0.7 0.15 150);
+  --pl-lost: oklch(0.65 0.2 25);
   --radius: 0.5rem;
   --background: oklch(0.17 0.03 155);
   --foreground: oklch(0.97 0.01 140);
@@ -319,3 +336,92 @@
 .adm-status.is-bllokuar { background: var(--hier-bllokuar); }
 .adm-status.is-mbyllur { background: var(--hier-mbyllur); }
 @media (max-width: 900px) { .hier-toolbar { flex-wrap: wrap; gap: 12px; } .hier-select select { min-width: 140px; } }
+
+/* ---------- Player (sport) side ---------- */
+.pl { min-height: 100vh; background: var(--pl-bg); color: var(--pl-text); font-size: 15px; display: flex; flex-direction: column; }
+.pl-top { background: var(--pl-top); display: flex; align-items: center; justify-content: space-between; padding: 8px 18px 8px 220px; gap: 16px; }
+.pl-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.pl-tabs a { padding: 8px 12px; border-radius: 3px; font-size: 18px; letter-spacing: 0.02em; color: var(--pl-text); white-space: nowrap; }
+.pl-tabs a:hover { background: color-mix(in oklab, var(--pl-tab) 60%, transparent); }
+.pl-tabs a.is-active { background: var(--pl-tab); }
+.pl-right { display: flex; align-items: center; gap: 14px; font-size: 17px; white-space: nowrap; }
+.pl-right .material-icons { font-size: 24px; }
+.pl-user { position: relative; }
+.pl-user > button { display: inline-flex; align-items: center; cursor: pointer; color: inherit; border-left: 1px solid var(--pl-line); border-right: 1px solid var(--pl-line); padding: 0 10px; }
+.pl-menu { position: absolute; right: 0; top: calc(100% + 8px); z-index: 30; min-width: 230px; background: var(--pl-panel); border: 1px solid var(--pl-line); border-radius: 4px; box-shadow: 0 8px 24px oklch(0 0 0 / 40%); }
+.pl-menu-bal { padding: 12px 14px; border-bottom: 1px solid var(--pl-line); font-size: 14px; color: var(--pl-muted); }
+.pl-menu-bal strong { display: block; color: var(--pl-odd); font-size: 18px; margin-top: 2px; }
+.pl-menu a, .pl-menu button { display: block; width: 100%; text-align: left; padding: 10px 14px; color: var(--pl-text); cursor: pointer; }
+.pl-menu a:hover, .pl-menu button:hover { background: var(--pl-row); }
+
+.pl-sports { display: flex; align-items: flex-end; gap: 6px; padding: 6px 6px 0; overflow-x: auto; }
+.pl-sport { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 12px 8px; font-size: 13px; font-weight: 600; text-transform: uppercase; color: var(--pl-text); cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; }
+.pl-sport .material-icons { font-size: 32px; }
+.pl-sport.is-active { border-bottom-color: var(--pl-gold); }
+
+.pl-grid { display: grid; grid-template-columns: 308px minmax(0, 1fr) 466px; gap: 8px; padding: 8px 6px; flex: 1; }
+.pl-box { background: var(--pl-panel); }
+.pl-box-head { background: var(--pl-head); padding: 10px 12px; font-size: 18px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.pl-box-head.center { justify-content: center; }
+.pl-search { margin: 8px; display: flex; align-items: center; gap: 6px; background: var(--pl-bg); border: 1px solid var(--pl-line); padding: 6px 8px; }
+.pl-search input { flex: 1; background: transparent; color: var(--pl-text); font-size: 17px; outline: none; }
+.pl-search input::placeholder { color: var(--pl-muted); }
+.pl-search button { color: var(--pl-text); cursor: pointer; display: flex; }
+.pl-leagues { max-height: calc(100vh - 330px); overflow-y: auto; }
+.pl-league { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-top: 1px solid var(--pl-line); cursor: pointer; font-size: 16px; }
+.pl-league input { width: 18px; height: 18px; accent-color: var(--pl-gold); }
+.pl-empty { padding: 18px 12px; color: var(--pl-muted); text-align: center; }
+.pl-err { color: var(--pl-lost); padding: 8px 12px; font-size: 14px; }
+.pl-ok { color: var(--pl-won); padding: 8px 12px; font-size: 14px; }
+
+.pl-odds-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.pl-odds-table th { background: var(--pl-head); font-weight: 400; font-size: 15px; padding: 4px 6px; line-height: 1.25; }
+.pl-odds-table th.title { text-align: left; font-size: 18px; padding-left: 10px; }
+.pl-odds-table th .sub { display: flex; justify-content: space-around; }
+.pl-day td { background: var(--pl-head); padding: 5px 8px; font-size: 17px; }
+.pl-day .material-icons { font-size: 16px; vertical-align: -2px; margin-right: 4px; }
+.pl-match td { border-top: 1px solid var(--pl-line); background: var(--pl-row); height: 62px; }
+.pl-match:nth-child(even) td { background: var(--pl-row-alt); }
+.pl-when { width: 100px; text-align: center; font-weight: 700; font-size: 14px; line-height: 1.9; }
+.pl-teams { padding: 0 8px; line-height: 1.6; font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pl-odd { text-align: center; padding: 0 !important; }
+.pl-odd button { width: 100%; height: 62px; color: var(--pl-odd); font-size: 18px; cursor: pointer; }
+.pl-odd button:hover:not(:disabled) { background: color-mix(in oklab, var(--pl-gold) 18%, transparent); }
+.pl-odd button.is-picked { background: var(--pl-pick); color: var(--pl-pick-text); font-weight: 700; }
+.pl-odd button:disabled { color: var(--pl-muted); cursor: default; }
+.pl-line { text-align: center; color: var(--pl-text); font-size: 16px; }
+
+.pl-field { margin: 8px; }
+.pl-field input { width: 100%; background: var(--pl-bg); border: 1px solid var(--pl-line); padding: 10px; color: var(--pl-text); font-size: 16px; outline: none; }
+.pl-field input:focus { border-color: var(--pl-gold); }
+.pl-btn { display: block; width: calc(100% - 16px); margin: 8px; padding: 10px; background: var(--pl-gold); color: var(--pl-text); font-size: 19px; border-radius: 2px; cursor: pointer; }
+.pl-btn:disabled { opacity: 0.55; cursor: default; }
+.pl-count { background: var(--pl-top); color: var(--pl-text); font-weight: 700; padding: 0 7px; border-radius: 3px; margin-left: 6px; font-size: 16px; }
+.pl-slip-item { margin: 8px; padding: 8px 10px; background: var(--pl-bg); border-left: 3px solid var(--pl-gold); display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; font-size: 14px; }
+.pl-slip-item .teams { font-size: 15px; }
+.pl-slip-item .what { color: var(--pl-muted); }
+.pl-slip-item .price { color: var(--pl-odd); font-weight: 700; font-size: 16px; text-align: right; }
+.pl-slip-item button { color: var(--pl-muted); cursor: pointer; justify-self: end; }
+.pl-slip-sum { margin: 8px; display: grid; grid-template-columns: 1fr auto; gap: 6px; font-size: 15px; }
+.pl-slip-sum strong { color: var(--pl-odd); }
+
+.pl-page { padding: 12px; }
+.pl-tickets { width: 100%; border-collapse: collapse; }
+.pl-tickets th { background: var(--pl-head); font-weight: 400; padding: 8px; text-align: left; }
+.pl-tickets td { padding: 8px; border-top: 1px solid var(--pl-line); background: var(--pl-row); vertical-align: top; }
+.pl-tickets tr.sub td { background: var(--pl-row-alt); font-size: 14px; color: var(--pl-muted); }
+.pl-tickets button.code { color: var(--pl-odd); cursor: pointer; font-weight: 700; }
+.pl-status { font-weight: 700; }
+.pl-status.is-won { color: var(--pl-won); }
+.pl-status.is-lost { color: var(--pl-lost); }
+.pl-status.is-pending { color: var(--pl-odd); }
+.pl-status.is-void { color: var(--pl-muted); }
+.pl-soon { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 120px 20px; color: var(--pl-muted); font-size: 18px; }
+.pl-soon .material-icons { font-size: 56px; color: var(--pl-gold); }
+
+/* Staff tickets list (light admin theme) */
+.adm-tickets td.won { color: var(--hier-aktiv); font-weight: 700; }
+.adm-tickets td.lost { color: var(--hier-bllokuar); font-weight: 700; }
+
+@media (max-width: 1400px) { .pl-grid { grid-template-columns: 260px minmax(0, 1fr) 340px; } .pl-top { padding-left: 18px; } }
+@media (max-width: 1100px) { .pl-grid { grid-template-columns: 1fr; } .pl-leagues { max-height: 240px; } .pl-tabs a { font-size: 15px; padding: 6px 8px; } }

@@ -15,6 +15,7 @@ import { Route as SetupRouteImport } from './routes/setup'
 import { Route as AuthenticatedBalancaRouteImport } from './routes/_authenticated/balanca'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedUsersRouteImport } from './routes/_authenticated/users'
+import { Route as ApiPublicJobsSettleBetsRouteImport } from './routes/api/public/jobs/settle-bets'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -45,6 +46,11 @@ const AuthenticatedUsersRoute = AuthenticatedUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicJobsSettleBetsRoute = ApiPublicJobsSettleBetsRouteImport.update({
+  id: '/api/public/jobs/settle-bets',
+  path: '/api/public/jobs/settle-bets',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/balanca': typeof AuthenticatedBalancaRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/users': typeof AuthenticatedUsersRoute
+  '/api/public/jobs/settle-bets': typeof ApiPublicJobsSettleBetsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/balanca': typeof AuthenticatedBalancaRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/users': typeof AuthenticatedUsersRoute
+  '/api/public/jobs/settle-bets': typeof ApiPublicJobsSettleBetsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -68,12 +76,25 @@ export interface FileRoutesById {
   '/_authenticated/balanca': typeof AuthenticatedBalancaRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/users': typeof AuthenticatedUsersRoute
+  '/api/public/jobs/settle-bets': typeof ApiPublicJobsSettleBetsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/setup' | '/balanca' | '/dashboard' | '/users'
+  fullPaths:
+    | '/'
+    | '/setup'
+    | '/balanca'
+    | '/dashboard'
+    | '/users'
+    | '/api/public/jobs/settle-bets'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/setup' | '/balanca' | '/dashboard' | '/users'
+  to:
+    | '/'
+    | '/setup'
+    | '/balanca'
+    | '/dashboard'
+    | '/users'
+    | '/api/public/jobs/settle-bets'
   id:
     | '__root__'
     | '/'
@@ -82,12 +103,14 @@ export interface FileRouteTypes {
     | '/_authenticated/balanca'
     | '/_authenticated/dashboard'
     | '/_authenticated/users'
+    | '/api/public/jobs/settle-bets'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   SetupRoute: typeof SetupRoute
+  ApiPublicJobsSettleBetsRoute: typeof ApiPublicJobsSettleBetsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -134,6 +157,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUsersRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/jobs/settle-bets': {
+      id: '/api/public/jobs/settle-bets'
+      path: '/api/public/jobs/settle-bets'
+      fullPath: '/api/public/jobs/settle-bets'
+      preLoaderRoute: typeof ApiPublicJobsSettleBetsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -156,6 +186,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   SetupRoute: SetupRoute,
+  ApiPublicJobsSettleBetsRoute: ApiPublicJobsSettleBetsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
