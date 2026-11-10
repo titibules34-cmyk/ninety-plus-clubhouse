@@ -95,7 +95,7 @@ function Balanca() {
         <div className="hier-scroll">
           <table className="hier-table">
             <thead>
-              <tr><th rowSpan={2} className="hier-user-col" /><th colSpan={4}>Lek</th></tr>
+              <tr><th className="hier-user-col" /><th colSpan={4}>Lek</th></tr>
               <tr>
                 <th className="hier-user-col"><button onClick={() => toggleSort("username")}>Përdorues {sortIcon("username")}</button></th>
                 <th><button onClick={() => toggleSort("balance")}>Balanca {sortIcon("balance")}</button></th>

@@ -49,9 +49,9 @@ export function AdminShell({ children }: { children: ReactNode }) {
           )}
         </div>
         <nav className="adm-nav">
-          <Link to="/dashboard" search={{ u: undefined }}>Balancë &amp; Overdraft</Link>
+          <Link to="/balanca" search={{ u: undefined }} activeProps={{ className: "is-active" }} activeOptions={{ includeSearch: false }}>Balancë &amp; Overdraft</Link>
           <Link to="/dashboard" search={{ u: undefined }}>Biletat</Link>
-          <Link to="/dashboard" search={{ u: undefined }}>Llogaria</Link>
+          <Link to="/dashboard" search={{ u: undefined }} activeProps={{ className: "is-active" }} activeOptions={{ includeSearch: false }}>Llogaria</Link>
           <i className="material-icons">notifications</i>
           <i className="material-icons">email</i>
           <span>{name}</span>
