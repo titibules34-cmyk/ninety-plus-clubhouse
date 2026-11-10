@@ -1,0 +1,9 @@
+[
+ {"capability":"code","source":"github titibules34-cmyk/ninety-plus-club-9f01150f","outcome":"migrate","status":"in_progress","next_action":"copy routes, components, lib, styles"},
+ {"capability":"schema","source":"drizzle/migrations 0000-0002 (profiles, user_roles, app_role, account_status, has_role, is_ancestor)","outcome":"migrate","status":"pending","next_action":"apply to Lovable Cloud"},
+ {"capability":"records","source":"previous Lovable Cloud backend (profiles, user_roles)","outcome":"migrate","status":"pending","next_action":"user exports profiles/user_roles CSV or skips"},
+ {"capability":"auth identities","source":"username+password accounts (synthetic emails)","outcome":"migrate","status":"pending","next_action":"admin recreated via /setup; old accounts need export or re-creation"},
+ {"capability":"authorization","source":"user_roles + has_role / is_ancestor RLS","outcome":"migrate","status":"pending","next_action":"apply policies"},
+ {"capability":"secrets","source":"none beyond backend keys","outcome":"none","status":"verified","next_action":""},
+ {"capability":"verification","source":"setup, login, dashboard, balance edit, create user","outcome":"verify","status":"pending","next_action":"run end-to-end"}
+]
