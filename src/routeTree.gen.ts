@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as SetupRouteImport } from './routes/setup'
 import { Route as AuthenticatedBalancaRouteImport } from './routes/_authenticated/balanca'
+import { Route as AuthenticatedBiletatRouteImport } from './routes/_authenticated/biletat'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedGaraBingoKenoRouteImport } from './routes/_authenticated/gara-bingo-keno'
 import { Route as AuthenticatedKazinoRouteImport } from './routes/_authenticated/kazino'
@@ -41,6 +42,11 @@ const SetupRoute = SetupRouteImport.update({
 const AuthenticatedBalancaRoute = AuthenticatedBalancaRouteImport.update({
   id: '/balanca',
   path: '/balanca',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedBiletatRoute = AuthenticatedBiletatRouteImport.update({
+  id: '/biletat',
+  path: '/biletat',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/setup': typeof SetupRoute
   '/balanca': typeof AuthenticatedBalancaRoute
+  '/biletat': typeof AuthenticatedBiletatRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/gara-bingo-keno': typeof AuthenticatedGaraBingoKenoRoute
   '/kazino': typeof AuthenticatedKazinoRoute
@@ -114,6 +121,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/setup': typeof SetupRoute
   '/balanca': typeof AuthenticatedBalancaRoute
+  '/biletat': typeof AuthenticatedBiletatRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/gara-bingo-keno': typeof AuthenticatedGaraBingoKenoRoute
   '/kazino': typeof AuthenticatedKazinoRoute
@@ -131,6 +139,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/setup': typeof SetupRoute
   '/_authenticated/balanca': typeof AuthenticatedBalancaRoute
+  '/_authenticated/biletat': typeof AuthenticatedBiletatRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/gara-bingo-keno': typeof AuthenticatedGaraBingoKenoRoute
   '/_authenticated/kazino': typeof AuthenticatedKazinoRoute
@@ -148,6 +157,7 @@ export interface FileRouteTypes {
     | '/'
     | '/setup'
     | '/balanca'
+    | '/biletat'
     | '/dashboard'
     | '/gara-bingo-keno'
     | '/kazino'
@@ -163,6 +173,7 @@ export interface FileRouteTypes {
     | '/'
     | '/setup'
     | '/balanca'
+    | '/biletat'
     | '/dashboard'
     | '/gara-bingo-keno'
     | '/kazino'
@@ -179,6 +190,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/setup'
     | '/_authenticated/balanca'
+    | '/_authenticated/biletat'
     | '/_authenticated/dashboard'
     | '/_authenticated/gara-bingo-keno'
     | '/_authenticated/kazino'
@@ -226,6 +238,13 @@ declare module '@tanstack/react-router' {
       path: '/balanca'
       fullPath: '/balanca'
       preLoaderRoute: typeof AuthenticatedBalancaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/biletat': {
+      id: '/_authenticated/biletat'
+      path: '/biletat'
+      fullPath: '/biletat'
+      preLoaderRoute: typeof AuthenticatedBiletatRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/dashboard': {
@@ -303,6 +322,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedBalancaRoute: typeof AuthenticatedBalancaRoute
+  AuthenticatedBiletatRoute: typeof AuthenticatedBiletatRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedGaraBingoKenoRoute: typeof AuthenticatedGaraBingoKenoRoute
   AuthenticatedKazinoRoute: typeof AuthenticatedKazinoRoute
@@ -316,6 +336,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBalancaRoute: AuthenticatedBalancaRoute,
+  AuthenticatedBiletatRoute: AuthenticatedBiletatRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedGaraBingoKenoRoute: AuthenticatedGaraBingoKenoRoute,
   AuthenticatedKazinoRoute: AuthenticatedKazinoRoute,
