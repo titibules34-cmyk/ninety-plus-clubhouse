@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { usernameToEmail } from "@/lib/username";
+import { homeFor } from "@/lib/home";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,18 +24,24 @@ function Index() {
   const [err, setErr] = useState<"" | "user" | "pass" | "login">("");
   const [busy, setBusy] = useState(false);
   const navigate = useNavigate();
+  async function goHome(userId: string) {
+    const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", userId);
+    const to = homeFor(roles?.map((r) => r.role) ?? []);
+    if (to === "/sport") navigate({ to: "/sport" });
+    else navigate({ to: "/dashboard", search: { u: undefined } });
+  }
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => { if (data.user) navigate({ to: "/dashboard", search: { u: undefined } }); });
+    supabase.auth.getUser().then(async ({ data }) => { if (data.user) await goHome(data.user.id); });
   }, [navigate]);
   const submit = async () => {
     if (!u) return setErr("user");
     if (!p) return setErr("pass");
     setBusy(true);
-    const { error } = await supabase.auth.signInWithPassword({ email: usernameToEmail(u), password: p });
-    setBusy(false);
-    if (error) return setErr("login");
+    const { data, error } = await supabase.auth.signInWithPassword({ email: usernameToEmail(u), password: p });
+    if (error || !data.user) { setBusy(false); return setErr("login"); }
     setErr("");
-    navigate({ to: "/dashboard", search: { u: undefined } });
+    await goHome(data.user.id);
+    setBusy(false);
   };
   return (
     <div className="login-screen">

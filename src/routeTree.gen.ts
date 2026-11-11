@@ -19,6 +19,7 @@ import { Route as AuthenticatedKazinoRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedLiveRouteImport } from './routes/_authenticated/live'
 import { Route as AuthenticatedRngGamesRouteImport } from './routes/_authenticated/rng-games'
 import { Route as AuthenticatedSpin2winRouteImport } from './routes/_authenticated/spin2win'
+import { Route as AuthenticatedSportRouteImport } from './routes/_authenticated/sport'
 import { Route as AuthenticatedUsersRouteImport } from './routes/_authenticated/users'
 import { Route as AuthenticatedVirtualsRouteImport } from './routes/_authenticated/virtuals'
 import { Route as ApiPublicJobsSettleBetsRouteImport } from './routes/api/public/jobs/settle-bets'
@@ -73,6 +74,11 @@ const AuthenticatedSpin2winRoute = AuthenticatedSpin2winRouteImport.update({
   path: '/spin2win',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSportRoute = AuthenticatedSportRouteImport.update({
+  id: '/sport',
+  path: '/sport',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedUsersRoute = AuthenticatedUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/live': typeof AuthenticatedLiveRoute
   '/rng-games': typeof AuthenticatedRngGamesRoute
   '/spin2win': typeof AuthenticatedSpin2winRoute
+  '/sport': typeof AuthenticatedSportRoute
   '/users': typeof AuthenticatedUsersRoute
   '/virtuals': typeof AuthenticatedVirtualsRoute
   '/api/public/jobs/settle-bets': typeof ApiPublicJobsSettleBetsRoute
@@ -113,6 +120,7 @@ export interface FileRoutesByTo {
   '/live': typeof AuthenticatedLiveRoute
   '/rng-games': typeof AuthenticatedRngGamesRoute
   '/spin2win': typeof AuthenticatedSpin2winRoute
+  '/sport': typeof AuthenticatedSportRoute
   '/users': typeof AuthenticatedUsersRoute
   '/virtuals': typeof AuthenticatedVirtualsRoute
   '/api/public/jobs/settle-bets': typeof ApiPublicJobsSettleBetsRoute
@@ -129,6 +137,7 @@ export interface FileRoutesById {
   '/_authenticated/live': typeof AuthenticatedLiveRoute
   '/_authenticated/rng-games': typeof AuthenticatedRngGamesRoute
   '/_authenticated/spin2win': typeof AuthenticatedSpin2winRoute
+  '/_authenticated/sport': typeof AuthenticatedSportRoute
   '/_authenticated/users': typeof AuthenticatedUsersRoute
   '/_authenticated/virtuals': typeof AuthenticatedVirtualsRoute
   '/api/public/jobs/settle-bets': typeof ApiPublicJobsSettleBetsRoute
@@ -145,6 +154,7 @@ export interface FileRouteTypes {
     | '/live'
     | '/rng-games'
     | '/spin2win'
+    | '/sport'
     | '/users'
     | '/virtuals'
     | '/api/public/jobs/settle-bets'
@@ -159,6 +169,7 @@ export interface FileRouteTypes {
     | '/live'
     | '/rng-games'
     | '/spin2win'
+    | '/sport'
     | '/users'
     | '/virtuals'
     | '/api/public/jobs/settle-bets'
@@ -174,6 +185,7 @@ export interface FileRouteTypes {
     | '/_authenticated/live'
     | '/_authenticated/rng-games'
     | '/_authenticated/spin2win'
+    | '/_authenticated/sport'
     | '/_authenticated/users'
     | '/_authenticated/virtuals'
     | '/api/public/jobs/settle-bets'
@@ -258,6 +270,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSpin2winRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/sport': {
+      id: '/_authenticated/sport'
+      path: '/sport'
+      fullPath: '/sport'
+      preLoaderRoute: typeof AuthenticatedSportRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/users': {
       id: '/_authenticated/users'
       path: '/users'
@@ -290,6 +309,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedLiveRoute: typeof AuthenticatedLiveRoute
   AuthenticatedRngGamesRoute: typeof AuthenticatedRngGamesRoute
   AuthenticatedSpin2winRoute: typeof AuthenticatedSpin2winRoute
+  AuthenticatedSportRoute: typeof AuthenticatedSportRoute
   AuthenticatedUsersRoute: typeof AuthenticatedUsersRoute
   AuthenticatedVirtualsRoute: typeof AuthenticatedVirtualsRoute
 }
@@ -302,6 +322,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedLiveRoute: AuthenticatedLiveRoute,
   AuthenticatedRngGamesRoute: AuthenticatedRngGamesRoute,
   AuthenticatedSpin2winRoute: AuthenticatedSpin2winRoute,
+  AuthenticatedSportRoute: AuthenticatedSportRoute,
   AuthenticatedUsersRoute: AuthenticatedUsersRoute,
   AuthenticatedVirtualsRoute: AuthenticatedVirtualsRoute,
 }
