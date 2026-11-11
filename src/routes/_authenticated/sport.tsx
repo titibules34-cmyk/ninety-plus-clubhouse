@@ -60,19 +60,24 @@ function Sport() {
   }, [group, sports.length]);
 
   const shown = selected.filter((k) => leagues.some((l) => l.key === k));
-  const oddsQueries = useQueries({
+  const odds = useQueries({
     queries: shown.map((k) => ({ queryKey: ["odds", k], queryFn: () => fetchOdds({ data: { sportKey: k } }), staleTime: 5 * 60 * 1000 })),
+    combine: (rs) => ({
+      all: rs.flatMap((r) => r.data?.matches ?? []),
+      loading: rs.some((r) => r.isLoading),
+      error: rs.find((r) => r.data?.error)?.data?.error ?? null,
+    }),
   });
   const [q, setQ] = useState("");
   const matches = useMemo(() => {
-    const all = oddsQueries.flatMap((r) => r.data?.matches ?? []);
+    const all = odds.all;
     const needle = q.trim().toLowerCase();
     return all
       .filter((m) => !needle || m.home.toLowerCase().includes(needle) || m.away.toLowerCase().includes(needle))
       .sort((a, b) => a.commenceTime.localeCompare(b.commenceTime));
-  }, [oddsQueries, q]);
-  const oddsLoading = oddsQueries.some((r) => r.isLoading);
-  const oddsError = oddsQueries.find((r) => r.data?.error)?.data?.error;
+  }, [odds.all, q]);
+  const oddsLoading = odds.loading;
+  const oddsError = odds.error;
 
   // Group rows by day, then league.
   const sections = useMemo(() => {
@@ -136,11 +141,17 @@ function Sport() {
 
   // Keep slip prices in sync with refreshed odds (player sees the change before placing).
   useEffect(() => {
-    setSlip((s) => s.map((x) => {
-      const m = matches.find((mm) => mm.id === x.eventId);
-      const p = m && priceFor(m, x.pick);
-      return p ? { ...x, odds: p.odds, point: p.point } : x;
-    }));
+    setSlip((s) => {
+      let changed = false;
+      const next = s.map((x) => {
+        const m = matches.find((mm) => mm.id === x.eventId);
+        const p = m && priceFor(m, x.pick);
+        if (!p || (p.odds === x.odds && p.point === x.point)) return x;
+        changed = true;
+        return { ...x, odds: p.odds, point: p.point };
+      });
+      return changed ? next : s;
+    });
   }, [matches]);
 
   const groupLabel = GROUPS[group]?.label ?? group;
