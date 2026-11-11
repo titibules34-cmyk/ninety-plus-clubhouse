@@ -1,6 +1,6 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useMe } from "@/lib/use-me";
 import { CreateAccountDialog } from "@/components/CreateAccountDialog";
@@ -17,6 +17,9 @@ export function AdminShell({ children }: { children: ReactNode }) {
     queryFn: async () => (await supabase.from("profiles").select("id, username").ilike("username", `%${q.trim()}%`).limit(8)).data ?? [],
   });
   const name = me?.profile?.username ?? "";
+  useEffect(() => {
+    if (me && !me.isAdmin && !me.isManager) navigate({ to: "/sport", replace: true });
+  }, [me, navigate]);
   const [dialog, setDialog] = useState<null | "user" | "manager">(null);
   // New accounts go under the account being viewed (dashboard ?u=), or under the signed-in admin.
   const viewedId = useRouterState({ select: (s) => (s.location.search as { u?: string }).u });
@@ -50,7 +53,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
         </div>
         <nav className="adm-nav">
           <Link to="/balanca" search={{ u: undefined }} activeProps={{ className: "is-active" }} activeOptions={{ includeSearch: false }}>Balancë &amp; Overdraft</Link>
-          <Link to="/dashboard" search={{ u: undefined }}>Biletat</Link>
+          <Link to="/biletat" search={{ kodi: undefined }} activeProps={{ className: "is-active" }} activeOptions={{ includeSearch: false }}>Biletat</Link>
           <Link to="/dashboard" search={{ u: undefined }} activeProps={{ className: "is-active" }} activeOptions={{ includeSearch: false }}>Llogaria</Link>
           <i className="material-icons">notifications</i>
           <i className="material-icons">email</i>
@@ -67,6 +70,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
           <>
             <button type="button" onClick={() => setDialog("manager")} title="Shto Menaxher" aria-label="Shto Menaxher" className="adm-side-btn"><i className="material-icons">group_add</i></button>
             <button type="button" onClick={() => setDialog("user")} title="Shto Përdorues" aria-label="Shto Përdorues" className="adm-side-btn"><i className="material-icons">person_add</i></button>
+            <Link to="/sport" title="Sport" aria-label="Sport" className="adm-side-btn"><i className="material-icons">sports_soccer</i></Link>
             <Link to="/users" title="Përdoruesit" aria-label="Përdoruesit" className="adm-side-btn"><i className="material-icons">list</i></Link>
           </>
         )}
